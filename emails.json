@@ -1,0 +1,422 @@
+[
+  {
+    "id": 1,
+    "subject": "Charged twice this month",
+    "body": "Hi, I've just checked my bank statement and there are two direct debits of $89.00 from you on 2 October. I only have one account with you. Can you please refund the duplicate payment as soon as possible?\n\nThanks,\nPriya Raman",
+    "expected_category": "billing",
+    "expected_escalation": false
+  },
+  {
+    "id": 2,
+    "subject": "Why has my bill gone up?",
+    "body": "My monthly bill has gone from $65 to $79 and I didn't receive any notice about a price change. I haven't changed my plan. Could someone explain what the extra $14 is for?\n\nDaniel",
+    "expected_category": "billing",
+    "expected_escalation": false
+  },
+  {
+    "id": 3,
+    "subject": "Roaming charges from Bali trip",
+    "body": "Hello,\n\nI was in Bali for a week and came home to a bill with $240 in international roaming charges. Before I left I added the $10/day travel pass in the app, so I don't understand why I've been charged per MB. Please review these charges.\n\nRegards,\nSophie Turnbull",
+    "expected_category": "billing",
+    "expected_escalation": true
+  },
+  {
+    "id": 4,
+    "subject": "Update card for autopay",
+    "body": "My credit card expired last month and I've got a new one. How do I update the card you use for automatic payments so I don't miss the next bill?",
+    "expected_category": "billing",
+    "expected_escalation": false
+  },
+  {
+    "id": 5,
+    "subject": "Late fee applied incorrectly",
+    "body": "I was charged a $15 late payment fee on my latest invoice but I paid on 3 September, which was before the due date of 5 September. I have the bank receipt if you need it. Please remove the fee.\n\nMarcus Webb\nAccount 4471-0923",
+    "expected_category": "billing",
+    "expected_escalation": false
+  },
+  {
+    "id": 6,
+    "subject": "Paper bill fee",
+    "body": "Hi there, I noticed a $2.20 'paper bill fee' on my account. I didn't know I was being charged for that. Can you switch me to email bills and stop the fee?",
+    "expected_category": "billing",
+    "expected_escalation": false
+  },
+  {
+    "id": 7,
+    "subject": "Still paying for a landline I cancelled",
+    "body": "I cancelled my home phone line in July and got a confirmation email at the time. It's now October and I'm still being charged $25 a month for it. That's three months of charges for a service I don't have. I want this stopped and refunded.\n\nGeoff Hallam",
+    "expected_category": "billing",
+    "expected_escalation": false
+  },
+  {
+    "id": 8,
+    "subject": "Loyalty discount missing",
+    "body": "When I recontracted over the phone in August, the agent promised me a $10 per month loyalty discount for 12 months. My last two bills don't show any discount. Can you apply it and credit the two months I've missed?",
+    "expected_category": "billing",
+    "expected_escalation": false
+  },
+  {
+    "id": 9,
+    "subject": "What is this data charge?",
+    "body": "My bill has a line saying 'Data overage - 4GB - $40'. I thought my plan just slowed down when I ran out of data rather than charging extra. Can you explain this charge please?",
+    "expected_category": "billing",
+    "expected_escalation": false
+  },
+  {
+    "id": 10,
+    "subject": "Can I pay my bill in instalments?",
+    "body": "Hello, I recently lost my job and I'm struggling to pay this month's bill of $156. Is it possible to split it into two payments or get an extension of a couple of weeks? I don't want my service cut off.\n\nThank you,\nAnita",
+    "expected_category": "billing",
+    "expected_escalation": true
+  },
+  {
+    "id": 11,
+    "subject": "Debt collection letter for closed account",
+    "body": "I received a letter from a debt collection agency saying I owe you $312. I closed that account in March and paid the final bill in full. I have the payment confirmation. Please look into this urgently, as it could affect my credit rating.\n\nRyan O'Donnell",
+    "expected_category": "billing",
+    "expected_escalation": true
+  },
+  {
+    "id": 12,
+    "subject": "Refund of credit balance",
+    "body": "I left last month and my final bill shows a credit balance of $43.50. How do I get that money refunded to my bank account?",
+    "expected_category": "billing",
+    "expected_escalation": false
+  },
+  {
+    "id": 13,
+    "subject": "Premium SMS subscription I never signed up for",
+    "body": "There's a recurring charge of $4.99 a week on my mobile bill labelled 'premium SMS service'. I never subscribed to anything. Please refund these charges and block premium SMS on my number.",
+    "expected_category": "billing",
+    "expected_escalation": false
+  },
+  {
+    "id": 14,
+    "subject": "Tax invoices for last financial year",
+    "body": "Hi, I'm a sole trader and my accountant needs copies of all my tax invoices from July last year to June this year. Can you send them through or tell me where to download them?\n\nCheers,\nLiam Fraser",
+    "expected_category": "billing",
+    "expected_escalation": false
+  },
+  {
+    "id": 15,
+    "subject": "Direct debit failed - how do I pay?",
+    "body": "I got an SMS saying my direct debit failed because I changed banks. I don't want my service suspended. What's the quickest way to pay the outstanding $72 manually today?",
+    "expected_category": "billing",
+    "expected_escalation": false
+  },
+  {
+    "id": 16,
+    "subject": "Compensation for last week's outage",
+    "body": "My home internet was completely down from Monday to Friday last week. It's working fine again now, thanks to your technician. However, I work from home and I'm paying for a service I couldn't use for five days. I'd like a credit on my next bill for those days.\n\nHelen Kowalski",
+    "expected_category": "billing",
+    "expected_escalation": false
+  },
+  {
+    "id": 17,
+    "subject": "Data add-on charged but not working",
+    "body": "Yesterday I bought a $20 extra data pack through the app and the money came out of my account straight away. My phone still says I have 0GB left and I can't use data. Either add the data I paid for or refund the $20, please.",
+    "expected_category": "billing",
+    "expected_escalation": false
+  },
+  {
+    "id": 18,
+    "subject": "Confusing first bill",
+    "body": "I joined on the 17th and my first bill is $112 even though my plan is $70 a month. There are a couple of lines that say 'pro-rata' and I don't understand them. Can you break down what I'm being charged for?",
+    "expected_category": "billing",
+    "expected_escalation": false
+  },
+  {
+    "id": 19,
+    "subject": "Bill is too high - what are my options?",
+    "body": "My monthly bill is $120 and I honestly can't keep paying that much. I mostly just use my phone for calls and WhatsApp. What can I do to get my monthly cost down on my existing account?\n\nMargaret",
+    "expected_category": "billing",
+    "expected_escalation": true
+  },
+  {
+    "id": 20,
+    "subject": "Still paying phone repayments after paying it off",
+    "body": "I paid off the remaining balance on my handset in a lump sum in June. My bills since then still include a $38 device repayment each month. Please stop the repayments and refund what I've been overcharged.",
+    "expected_category": "billing",
+    "expected_escalation": true
+  },
+  {
+    "id": 21,
+    "subject": "Internet drops out every evening",
+    "body": "For the past two weeks my home internet disconnects almost every night between about 7pm and 10pm. The modem lights go red and then come back after a few minutes. During the day it's fine. Can you check what's going on?\n\nTom Nguyen",
+    "expected_category": "technical_support",
+    "expected_escalation": false
+  },
+  {
+    "id": 22,
+    "subject": "No signal at home since tower work",
+    "body": "Since the work on the mobile tower near my street last Tuesday, I've had no signal at all inside my house. My neighbours with the same provider have the same problem. When will this be fixed?",
+    "expected_category": "technical_support",
+    "expected_escalation": false
+  },
+  {
+    "id": 23,
+    "subject": "New modem won't connect",
+    "body": "Hi, I've just set up the new modem you sent me. I followed the instructions in the box, but the internet light keeps flashing orange and none of my devices can get online. I've restarted it three times.\n\nKate",
+    "expected_category": "technical_support",
+    "expected_escalation": false
+  },
+  {
+    "id": 24,
+    "subject": "No service after changing phones",
+    "body": "I moved my SIM card into my new phone this morning and now it just says 'No service'. I can't make calls or send texts. The SIM worked fine in my old phone an hour ago.",
+    "expected_category": "technical_support",
+    "expected_escalation": false
+  },
+  {
+    "id": 25,
+    "subject": "eSIM activation failing",
+    "body": "I'm trying to activate my eSIM using the QR code you emailed, but my phone says 'Unable to complete cellular plan change' every time. I've tried on Wi-Fi and restarted the phone. What should I do?",
+    "expected_category": "technical_support",
+    "expected_escalation": false
+  },
+  {
+    "id": 26,
+    "subject": "Speeds much slower than my plan",
+    "body": "I pay for a 100 Mbps plan, but speed tests over the last week have shown between 6 and 12 Mbps, even when plugged directly into the modem with a cable. Streaming keeps buffering. Please investigate.\n\nArjun Mehta",
+    "expected_category": "technical_support",
+    "expected_escalation": false
+  },
+  {
+    "id": 27,
+    "subject": "Voicemail not working",
+    "body": "People have told me that when they call and I don't answer, they hear an error message instead of my voicemail. I haven't changed any settings. Can you fix this?",
+    "expected_category": "technical_support",
+    "expected_escalation": false
+  },
+  {
+    "id": 28,
+    "subject": "Locked out of router settings",
+    "body": "I want to change my Wi-Fi password but I've forgotten the admin login for the router. The default password on the sticker doesn't work any more. How can I reset it?",
+    "expected_category": "technical_support",
+    "expected_escalation": false
+  },
+  {
+    "id": 29,
+    "subject": "Calls keep dropping",
+    "body": "Almost every call I make drops after about two minutes. It happens in different places, not just at home, and my signal shows full bars. It started after the last phone software update.\n\nBen Carter",
+    "expected_category": "technical_support",
+    "expected_escalation": false
+  },
+  {
+    "id": 30,
+    "subject": "Not receiving emails on my account",
+    "body": "I use the email address that came with my internet plan. Since Monday I haven't received any new emails in Outlook, although I can still send them. I haven't changed any settings on my computer.",
+    "expected_category": "technical_support",
+    "expected_escalation": false
+  },
+  {
+    "id": 31,
+    "subject": "Is there an outage? Whole street is offline",
+    "body": "My fibre internet stopped working about an hour ago, and so has everyone else's on our street. Is there a known outage in our area and when will it be back up? I've already restarted my modem.",
+    "expected_category": "technical_support",
+    "expected_escalation": false
+  },
+  {
+    "id": 32,
+    "subject": "Roaming data not working in Japan",
+    "body": "I'm in Tokyo at the moment. I activated roaming before I left and my phone shows a local network, but mobile data doesn't work at all. Calls and texts work. I need maps and messaging - please help!",
+    "expected_category": "technical_support",
+    "expected_escalation": false
+  },
+  {
+    "id": 33,
+    "subject": "Can't send picture messages",
+    "body": "Whenever I try to send a photo by MMS it just says 'message failed'. Normal texts send fine. My partner is on the same plan and theirs works.",
+    "expected_category": "technical_support",
+    "expected_escalation": false
+  },
+  {
+    "id": 34,
+    "subject": "Strict NAT on gaming console",
+    "body": "My console is showing NAT Type Strict and I can't join online games with friends. I think I need to set up port forwarding on your modem but I can't find where to do it. Can you walk me through it?",
+    "expected_category": "technical_support",
+    "expected_escalation": false
+  },
+  {
+    "id": 35,
+    "subject": "No internet since Saturday",
+    "body": "My internet hasn't worked since Saturday. I know you charge a technician fee if the fault turns out to be inside my house, so before you send anyone out, can you help me troubleshoot it remotely? All the modem lights are on except the internet one.\n\nGrace Adeyemi",
+    "expected_category": "technical_support",
+    "expected_escalation": false
+  },
+  {
+    "id": 36,
+    "subject": "Someone using my Wi-Fi?",
+    "body": "My bill says I used 300GB of data last month, but I live alone and barely use the internet. I think someone else might be connecting to my Wi-Fi. How can I see which devices are connected and lock it down so only my devices can use it?",
+    "expected_category": "technical_support",
+    "expected_escalation": false
+  },
+  {
+    "id": 37,
+    "subject": "Texts arriving hours late",
+    "body": "Text messages are arriving on my phone hours after they were sent. Yesterday I got a message from my daughter four hours late. It's happened about ten times this week.",
+    "expected_category": "technical_support",
+    "expected_escalation": false
+  },
+  {
+    "id": 38,
+    "subject": "Crackling on landline",
+    "body": "There's a loud crackling noise on my home phone line, especially when it rains. Sometimes it's so bad I can't hear the other person. I've tried a different handset and it's the same.\n\nMrs J. Patterson",
+    "expected_category": "technical_support",
+    "expected_escalation": false
+  },
+  {
+    "id": 39,
+    "subject": "About to leave because of constant dropouts",
+    "body": "I'm seriously thinking of switching providers. My internet disconnects at least five times a day and nobody has been able to fix it. Before I give up, can someone actually look at my connection properly and sort it out?",
+    "expected_category": "technical_support",
+    "expected_escalation": true
+  },
+  {
+    "id": 40,
+    "subject": "Wi-Fi extender won't pair",
+    "body": "I bought the mesh Wi-Fi extender from your online store. When I press the pair button it blinks for a while and then goes solid red. It never connects to the main modem. I've tried it in three different rooms.",
+    "expected_category": "technical_support",
+    "expected_escalation": false
+  },
+  {
+    "id": 41,
+    "subject": "5G coverage in my suburb?",
+    "body": "Hi, I'm thinking about switching to you from another provider. Do you have 5G coverage in Brunswick East? I'd mainly be using it at home and around the local area.\n\nThanks,\nOscar",
+    "expected_category": "general_enquiry",
+    "expected_escalation": false
+  },
+  {
+    "id": 42,
+    "subject": "Moving house next month",
+    "body": "We're moving to a new address on 15 November. What do I need to do to move my home internet service to the new place, and how much notice do you need?",
+    "expected_category": "general_enquiry",
+    "expected_escalation": false
+  },
+  {
+    "id": 43,
+    "subject": "Store opening hours on public holiday",
+    "body": "Will your city store on George Street be open on the public holiday Monday? I need to pick up a new SIM card.",
+    "expected_category": "general_enquiry",
+    "expected_escalation": false
+  },
+  {
+    "id": 44,
+    "subject": "Adding a second line for my son",
+    "body": "My son is turning 14 and I'd like to get him a phone. Can I add a second mobile line to my existing account, or does he need his own account?\n\nRegards,\nFatima Hassan",
+    "expected_category": "general_enquiry",
+    "expected_escalation": false
+  },
+  {
+    "id": 45,
+    "subject": "Keeping my number if I switch",
+    "body": "If I switch to you from my current provider, can I keep my mobile number? How long does the transfer usually take, and will I lose service at any point?",
+    "expected_category": "general_enquiry",
+    "expected_escalation": false
+  },
+  {
+    "id": 46,
+    "subject": "Great service from your staff",
+    "body": "I just wanted to say thank you to Mia at your Chermside store. She was patient and helpful when setting up my mum's new phone and explained everything clearly. Please pass on my thanks.",
+    "expected_category": "general_enquiry",
+    "expected_escalation": false
+  },
+  {
+    "id": 47,
+    "subject": "Plans for pensioners?",
+    "body": "Hello, I'm 72 and on the aged pension. Do you have any special plans or discounts for seniors? I'm not a customer yet but my friend recommended you.",
+    "expected_category": "general_enquiry",
+    "expected_escalation": false
+  },
+  {
+    "id": 48,
+    "subject": "Changing the name on my account",
+    "body": "I recently got married and changed my surname. What documents do you need from me to update the name on my account?\n\nEmily Brooks (previously Emily Shaw)",
+    "expected_category": "general_enquiry",
+    "expected_escalation": false
+  },
+  {
+    "id": 49,
+    "subject": "Unlimited plan question",
+    "body": "How much is your unlimited mobile plan, and does it include calls to other countries? I use about 40GB a month and call family in the UK quite often. Would it suit me?",
+    "expected_category": "general_enquiry",
+    "expected_escalation": false
+  },
+  {
+    "id": 50,
+    "subject": "Buying a phone outright",
+    "body": "Do you sell the latest phones outright, or only on a plan? I'd like to buy one without a contract and just use a SIM-only plan.",
+    "expected_category": "general_enquiry",
+    "expected_escalation": false
+  },
+  {
+    "id": 51,
+    "subject": "Request for my personal information",
+    "body": "Under privacy law, I'd like to request a copy of all the personal information you hold about me. Please also tell me how my data is used and whether it's shared with third parties.\n\nDavid Lin",
+    "expected_category": "general_enquiry",
+    "expected_escalation": true
+  },
+  {
+    "id": 52,
+    "subject": "Authorise my partner on my account",
+    "body": "I'd like my partner to be able to call you and discuss our account on my behalf. How do I add them as an authorised person?",
+    "expected_category": "general_enquiry",
+    "expected_escalation": false
+  },
+  {
+    "id": 53,
+    "subject": "Recycling old phones",
+    "body": "I have three old mobile phones in a drawer. Do you have a recycling program, and can I drop them off at any of your stores?",
+    "expected_category": "general_enquiry",
+    "expected_escalation": false
+  },
+  {
+    "id": 54,
+    "subject": "Complaint about phone call",
+    "body": "I called your customer service line yesterday with a simple question and the person I spoke to was rude and hung up on me. This isn't about a fault or my bill. I just want this feedback passed to the right team so it doesn't happen to someone else.",
+    "expected_category": "general_enquiry",
+    "expected_escalation": true
+  },
+  {
+    "id": 55,
+    "subject": "How do I cancel my contract?",
+    "body": "I'm moving overseas permanently in January and need to cancel my mobile and internet services. What's the process for cancelling, and will there be any exit fees since I'm still in contract?\n\nJames Whitfield",
+    "expected_category": "general_enquiry",
+    "expected_escalation": false
+  },
+  {
+    "id": 56,
+    "subject": "International calling pack - Vietnam?",
+    "body": "Does your international calling add-on include calls to mobiles in Vietnam, or only landlines? I'm thinking about adding it to my plan.",
+    "expected_category": "general_enquiry",
+    "expected_escalation": false
+  },
+  {
+    "id": 57,
+    "subject": "Plans for a small business",
+    "body": "I run a small accounting office with six staff. We need mobile phones for everyone and a business internet connection. Do you offer business bundles, and can someone contact me with options?\n\nSandra Petrovic\nPetrovic & Co.",
+    "expected_category": "general_enquiry",
+    "expected_escalation": false
+  },
+  {
+    "id": 58,
+    "subject": "Planned maintenance next week?",
+    "body": "My internet is working fine at the moment. I've got important video calls for work all next week, so I wanted to check whether you have any planned maintenance scheduled in Fremantle that could interrupt my service.",
+    "expected_category": "general_enquiry",
+    "expected_escalation": false
+  },
+  {
+    "id": 59,
+    "subject": "Where to buy recharge vouchers",
+    "body": "My grandmother is on one of your prepaid plans and doesn't use the app. Where can she buy recharge vouchers in person? Do supermarkets sell them?",
+    "expected_category": "general_enquiry",
+    "expected_escalation": false
+  },
+  {
+    "id": 60,
+    "subject": "Will my phone work on your network?",
+    "body": "Before I sign up, I want to make sure my phone is compatible. It's a two-year-old Samsung bought overseas. Will it work on your 5G network, and does it support your eSIM?",
+    "expected_category": "general_enquiry",
+    "expected_escalation": false
+  }
+]
