@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 470" width="1200" height="470" role="img" aria-labelledby="title desc">
   <title id="title">Architecture</title>
-  <desc id="desc">The same labelled emails and the same shared prompt with JSON schema go to two models, OpenAI gpt-6-luna and Anthropic claude-haiku-5-5, which are the only variable. Both responses go through the same checking: the provider enforces the schema, the result is checked again locally, and it is saved to results/results.json. Invalid output is recorded as an error, never guessed. Metrics cover category accuracy, precision and recall, escalation accuracy, precision and recall, and latency and cost per 1,000 emails.</desc>
+  <desc id="desc">The same labelled emails (60 original and 40 harder) and the same shared prompt with JSON schema go to two models, OpenAI gpt-6-luna and Anthropic claude-haiku-5-5, which are the only variable. Both responses go through the same checking: the provider enforces the schema, the result is checked again locally, and it is saved to results/results.json. Invalid output is recorded as an error, never guessed. Metrics cover category accuracy, precision and recall, escalation accuracy, precision and recall, and latency and cost per 1,000 emails.</desc>
 
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
@@ -36,8 +36,8 @@
   <text class="label" x="56" y="62">SAME INPUT</text>
 
   <rect class="card" x="56" y="84" width="272" height="150" rx="10"/>
-  <text class="mono" x="76" y="116" style="font-size:15px;font-weight:600">data/emails.json</text>
-  <text class="muted" x="76" y="140">60 synthetic emails, labelled</text>
+  <text class="title" x="76" y="116">Labelled emails</text>
+  <text class="muted" x="76" y="140">60 original + 40 harder</text>
   <rect class="chip" x="76" y="156" width="232" height="56" rx="8"/>
   <text class="chip-text mono" x="90" y="179">billing · technical_support</text>
   <text class="chip-text mono" x="90" y="199">general_enquiry</text>
