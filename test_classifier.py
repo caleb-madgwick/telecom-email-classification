@@ -25,6 +25,7 @@ from classifier import (
     validate_response,
 )
 from evaluator import (
+    DATASETS,
     accuracy,
     estimated_cost,
     find_disagreements,
@@ -89,6 +90,18 @@ def test_dataset_has_20_emails_per_category():
 def test_dataset_ids_are_unique():
     ids = [e["id"] for e in load_emails()]
     assert len(ids) == len(set(ids))
+
+
+def test_hard_dataset_is_valid_and_separate_from_original():
+    hard_path, _ = DATASETS["hard"]
+    hard = load_emails(hard_path)  # also checks every label is valid
+    hard_ids = {e["id"] for e in hard}
+    original_ids = {e["id"] for e in load_emails()}
+
+    assert len(hard) == 40
+    assert len(hard_ids) == 40  # unique
+    assert not hard_ids & original_ids  # no overlap with the original 60
+    assert all(e.get("note") for e in hard)  # every label is explained
 
 
 def test_load_emails_rejects_unknown_category(tmp_path):
