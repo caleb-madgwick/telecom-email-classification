@@ -16,6 +16,17 @@ Customer emails arrive as unstructured text and need to reach the right team. Th
 
 Both models receive the same prompt, emails and output schema. Every response is checked locally before it counts. Results are saved, so metrics can be recalculated without new API calls.
 
+## Project Structure
+
+```text
+classifier.py        prompt, schema, API calls and response validation
+evaluator.py         runs both models and calculates metrics
+test_classifier.py   offline tests with mocked API clients
+data/emails.json     60 synthetic emails with expected labels
+results/             saved per-email results from each run
+docs/                architecture diagram
+```
+
 ## Key Design Decisions
 
 - **One prompt, one schema:** the model is the only thing that differs between the two runs. Trade-off: neither prompt is tuned to its model.
@@ -50,7 +61,7 @@ Python 3.10+. Copy `.env.example` to `.env` and add both API keys.
 
 ```bash
 pip install -r requirements.txt
-pytest                                 # 28 offline tests, no API calls
+pytest                                 # 29 offline tests, no API calls
 python evaluator.py --per-category 2   # quick run, 12 calls
 python evaluator.py                    # full run, 120 calls
 python evaluator.py --from-results     # re-report saved results for free

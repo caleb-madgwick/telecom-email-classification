@@ -1,68 +1,108 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1110 280" width="1110" height="280" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 470" width="1200" height="470" role="img" aria-labelledby="title desc">
   <title id="title">Architecture</title>
-  <desc id="desc">Synthetic emails pass through a shared prompt and JSON schema to an OpenAI model and an Anthropic model. Both responses are validated for category and escalation decision, saved to results.json, and turned into accuracy, precision, recall, latency and cost metrics.</desc>
+  <desc id="desc">The same labelled emails and the same shared prompt with JSON schema go to two models, OpenAI gpt-6-luna and Anthropic claude-haiku-5-5, which are the only variable. Both responses go through the same checking: the provider enforces the schema, the result is checked again locally, and it is saved to results/results.json. Invalid output is recorded as an error, never guessed. Metrics cover category accuracy, precision and recall, escalation accuracy, precision and recall, and latency and cost per 1,000 emails.</desc>
 
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M0 0 L10 5 L0 10 z" fill="#8C959F"/>
+      <path d="M0 0 L10 5 L0 10 z" fill="#57606A"/>
     </marker>
     <style>
-      text { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; text-anchor: middle; }
-      .title { font-size: 15px; font-weight: 600; fill: #1F2328; }
-      .sub { font-size: 12.5px; fill: #59636E; }
-      .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; }
-      .arrow { fill: none; stroke: #8C959F; stroke-width: 1.6; marker-end: url(#arrow); }
-      .neutral { fill: #F6F8FA; stroke: #D0D7DE; }
-      .model { fill: #DDF4FF; stroke: #54AEFF; }
-      .check { fill: #FFF8C5; stroke: #D4A72C; }
-      .output { fill: #DAFBE1; stroke: #4AC26B; }
+      text { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; fill: #1F2328; }
+      .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+      .label { font-size: 13px; font-weight: 600; letter-spacing: 1.3px; fill: #59636E; }
+      .label-accent { fill: #2F7D64; }
+      .title { font-size: 17px; font-weight: 600; }
+      .model { font-size: 14px; font-weight: 600; }
+      .step { font-size: 14.5px; font-weight: 600; fill: #2F7D64; }
+      .body { font-size: 13.5px; }
+      .muted { font-size: 13.5px; fill: #59636E; }
+      .note { font-size: 12.5px; fill: #59636E; }
+      .chip-text { font-size: 12.5px; }
+      .arrow { fill: none; stroke: #57606A; stroke-width: 1.6; marker-end: url(#arrow); }
+      .panel { fill: #F6F8FA; stroke: #D0D7DE; }
+      .panel-accent { fill: #EEF7F2; stroke: #B9DFCB; }
+      .card { fill: #FFFFFF; stroke: #D0D7DE; }
+      .card-accent { fill: #FFFFFF; stroke: #2F7D64; stroke-width: 1.5; }
+      .chip { fill: #E3F3EC; stroke: #8CCBB2; }
+      .divider { stroke: #D0D7DE; }
     </style>
   </defs>
 
   <!-- Solid background so the diagram reads in GitHub light and dark themes -->
-  <rect x="0.5" y="0.5" width="1109" height="279" rx="12" fill="#FFFFFF" stroke="#D0D7DE"/>
+  <rect x="0.5" y="0.5" width="1199" height="469" rx="16" fill="#FFFFFF" stroke="#D0D7DE"/>
 
-  <!-- Arrows -->
-  <path class="arrow" d="M170 140 H202"/>
-  <path class="arrow" d="M354 140 H371 V80 H386"/>
-  <path class="arrow" d="M354 140 H371 V200 H386"/>
-  <path class="arrow" d="M538 80 H555 V140 H570"/>
-  <path class="arrow" d="M538 200 H555 V140 H570"/>
-  <path class="arrow" d="M722 140 H754"/>
-  <path class="arrow" d="M906 140 H938"/>
+  <!-- Panel 1: same input -->
+  <rect class="panel" x="32" y="32" width="320" height="406" rx="12"/>
+  <text class="label" x="56" y="62">SAME INPUT</text>
 
-  <!-- Dataset -->
-  <rect class="neutral" x="20" y="105" width="150" height="70" rx="8"/>
-  <text class="title mono" x="95" y="135" style="font-size:14px;font-weight:600">emails.json</text>
-  <text class="sub" x="95" y="155">60 labelled emails</text>
+  <rect class="card" x="56" y="84" width="272" height="150" rx="10"/>
+  <text class="mono" x="76" y="116" style="font-size:15px;font-weight:600">data/emails.json</text>
+  <text class="muted" x="76" y="140">60 synthetic emails, labelled</text>
+  <rect class="chip" x="76" y="156" width="232" height="56" rx="8"/>
+  <text class="chip-text mono" x="90" y="179">billing · technical_support</text>
+  <text class="chip-text mono" x="90" y="199">general_enquiry</text>
 
-  <!-- Shared prompt -->
-  <rect class="neutral" x="204" y="105" width="150" height="70" rx="8"/>
-  <text class="title" x="279" y="135">Shared prompt</text>
-  <text class="sub" x="279" y="155">+ JSON schema</text>
+  <rect class="card-accent" x="56" y="270" width="272" height="144" rx="10"/>
+  <text class="title" x="76" y="302">Shared prompt</text>
+  <text class="body" x="76" y="326">categories, a tie-break rule</text>
+  <text class="body" x="76" y="346">and 5 escalation rules</text>
+  <rect class="chip" x="76" y="362" width="232" height="34" rx="8"/>
+  <text class="chip-text mono" x="90" y="384" style="font-weight:600">+ JSON schema</text>
 
-  <!-- Models -->
-  <rect class="model" x="388" y="45" width="150" height="70" rx="8"/>
-  <text class="title" x="463" y="75">OpenAI</text>
-  <text class="sub mono" x="463" y="95">gpt-6-luna</text>
+  <!-- Panel 2: the only variable -->
+  <rect class="panel-accent" x="376" y="32" width="268" height="406" rx="12"/>
+  <text class="label label-accent" x="400" y="62">THE ONLY VARIABLE</text>
 
-  <rect class="model" x="388" y="165" width="150" height="70" rx="8"/>
-  <text class="title" x="463" y="195">Anthropic</text>
-  <text class="sub mono" x="463" y="215">claude-haiku-5-5</text>
+  <rect class="card" x="400" y="120" width="220" height="104" rx="10"/>
+  <text class="title" x="420" y="160">OpenAI</text>
+  <text class="model mono" x="420" y="190">gpt-6-luna</text>
 
-  <!-- Validation -->
-  <rect class="check" x="572" y="105" width="150" height="70" rx="8"/>
-  <text class="title" x="647" y="135">Validate</text>
-  <text class="sub" x="647" y="155">category + escalation</text>
+  <rect class="card" x="400" y="290" width="220" height="104" rx="10"/>
+  <text class="title" x="420" y="330">Anthropic</text>
+  <text class="model mono" x="420" y="360">claude-haiku-5-5</text>
 
-  <!-- Saved results -->
-  <rect class="neutral" x="756" y="105" width="150" height="70" rx="8"/>
-  <text class="title mono" x="831" y="135" style="font-size:14px;font-weight:600">results.json</text>
-  <text class="sub" x="831" y="155">saved per email</text>
+  <!-- Panel 3: same checking and scoring -->
+  <rect class="panel" x="668" y="32" width="500" height="406" rx="12"/>
+  <text class="label" x="692" y="62">SAME CHECKING AND SCORING</text>
 
-  <!-- Metrics -->
-  <rect class="output" x="940" y="98" width="150" height="84" rx="8"/>
-  <text class="title" x="1015" y="126">Metrics</text>
-  <text class="sub" x="1015" y="146">accuracy · precision</text>
-  <text class="sub" x="1015" y="164">recall · latency · cost</text>
+  <rect class="card-accent" x="692" y="84" width="190" height="330" rx="10"/>
+  <text class="title" x="712" y="116">Validate</text>
+
+  <text class="step" x="712" y="152">1 · Provider</text>
+  <text class="body" x="712" y="174">enforces the schema</text>
+  <line class="divider" x1="712" y1="194" x2="862" y2="194"/>
+
+  <text class="step" x="712" y="222">2 · Checked locally</text>
+  <text class="body" x="712" y="244">category, escalation</text>
+  <text class="body" x="712" y="264">and reasoning</text>
+  <line class="divider" x1="712" y1="284" x2="862" y2="284"/>
+
+  <text class="step" x="712" y="312">3 · Saved</text>
+  <text class="mono" x="712" y="334" style="font-size:11.5px">results/results.json</text>
+
+  <text class="note" x="712" y="380">invalid = an error,</text>
+  <text class="note" x="712" y="398">never a guess</text>
+
+  <rect class="card-accent" x="906" y="84" width="238" height="330" rx="10"/>
+  <text class="title" x="926" y="116">Metrics</text>
+
+  <text class="step" x="926" y="156">Category</text>
+  <text class="body" x="926" y="178">accuracy, precision,</text>
+  <text class="body" x="926" y="198">recall per class</text>
+
+  <text class="step" x="926" y="240">Escalation</text>
+  <text class="body" x="926" y="262">accuracy, precision</text>
+  <text class="body" x="926" y="282">and recall</text>
+
+  <text class="step" x="926" y="324">Speed and cost</text>
+  <text class="body" x="926" y="346">latency and cost</text>
+  <text class="body" x="926" y="366">per 1,000 emails</text>
+
+  <!-- Arrows last, so they draw on top of the panels -->
+  <path class="arrow" d="M192 234 V266"/>
+  <path class="arrow" d="M328 342 H364 V172 H398"/>
+  <path class="arrow" d="M328 342 H398"/>
+  <path class="arrow" d="M620 172 H656 V251 H690"/>
+  <path class="arrow" d="M620 342 H656 V251 H690"/>
+  <path class="arrow" d="M882 251 H904"/>
 </svg>

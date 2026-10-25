@@ -22,7 +22,8 @@ from classifier import (
     load_emails,
 )
 
-RESULTS_PATH = Path(__file__).parent / "results.json"
+PROJECT_DIR = Path(__file__).parent
+RESULTS_PATH = PROJECT_DIR / "results" / "results.json"
 
 # Standard prices in USD per 1M tokens: (input, output), as of 2026-10-25.
 # Prices change, so check these before relying on the cost figures:
@@ -73,13 +74,22 @@ def precision_recall(results, positive, predicted="predicted", expected="expecte
 
     precision: of the emails predicted as `positive`, how many really were?
     recall:    of the emails that really are `positive`, how many did we find?
+
+    Either value is None when it can't be calculated, e.g. recall when no
+    email in the sample is actually `positive`.
     """
     tp = sum(r[predicted] == positive and r[expected] == positive for r in results)
     fp = sum(r[predicted] == positive and r[expected] != positive for r in results)
     fn = sum(r[predicted] != positive and r[expected] == positive for r in results)
-    precision = tp / (tp + fp) if tp + fp else 0.0
-    recall = tp / (tp + fn) if tp + fn else 0.0
+    precision = tp / (tp + fp) if tp + fp else None
+    recall = tp / (tp + fn) if tp + fn else None
     return precision, recall
+
+
+def mean_or_none(values):
+    """Mean of the values that could be calculated, or None if there are none."""
+    known = [v for v in values if v is not None]
+    return statistics.mean(known) if known else None
 
 
 def estimated_cost(result):
@@ -101,8 +111,8 @@ def summarise(results):
         "errors": sum(r["error"] is not None for r in results),
         "accuracy": accuracy(results),
         "per_class": per_class,
-        "macro_precision": statistics.mean(p for p, _ in per_class.values()),
-        "macro_recall": statistics.mean(r for _, r in per_class.values()),
+        "macro_precision": mean_or_none(p for p, _ in per_class.values()),
+        "macro_recall": mean_or_none(r for _, r in per_class.values()),
         "escalation_accuracy": accuracy(results, **escalation_fields),
         "escalation_precision_recall": precision_recall(results, True, **escalation_fields),
         "mean_latency_s": statistics.mean(latencies) if latencies else None,
@@ -113,6 +123,10 @@ def summarise(results):
 
 def format_seconds(value):
     return "n/a" if value is None else f"{value:.2f}"
+
+
+def format_percent(value):
+    return "n/a" if value is None else f"{value:.1%}"
 
 
 def print_report(results):
@@ -132,18 +146,18 @@ def print_report(results):
     row("Emails classified", lambda s: str(s["emails"]))
     row("Errors", lambda s: str(s["errors"]))
     row("Accuracy", lambda s: f"{s['accuracy']:.1%}")
-    row("Macro precision", lambda s: f"{s['macro_precision']:.1%}")
-    row("Macro recall", lambda s: f"{s['macro_recall']:.1%}")
+    row("Macro precision", lambda s: format_percent(s["macro_precision"]))
+    row("Macro recall", lambda s: format_percent(s["macro_recall"]))
     row("Escalation accuracy", lambda s: f"{s['escalation_accuracy']:.1%}")
-    row("Escalation precision", lambda s: f"{s['escalation_precision_recall'][0]:.1%}")
-    row("Escalation recall", lambda s: f"{s['escalation_precision_recall'][1]:.1%}")
+    row("Escalation precision", lambda s: format_percent(s["escalation_precision_recall"][0]))
+    row("Escalation recall", lambda s: format_percent(s["escalation_precision_recall"][1]))
     row("Mean latency (s)", lambda s: format_seconds(s["mean_latency_s"]))
     row("Median latency (s)", lambda s: format_seconds(s["median_latency_s"]))
     row("Est. cost per 1,000 emails", lambda s: f"${s['cost_per_1000']:.4f}")
 
     header("Precision / recall")
     for category in CATEGORIES:
-        row(category, lambda s: "{:.1%} / {:.1%}".format(*s["per_class"][category]))
+        row(category, lambda s: " / ".join(map(format_percent, s["per_class"][category])))
 
     mistakes = [
         r
@@ -173,11 +187,14 @@ def main():
     parser.add_argument(
         "--from-results",
         action="store_true",
-        help=f"skip API calls and report on the saved {RESULTS_PATH.name}",
+        help="skip API calls and report on the saved results",
     )
     args = parser.parse_args()
+    results_file = RESULTS_PATH.relative_to(PROJECT_DIR)
 
     if args.from_results:
+        if not RESULTS_PATH.exists():
+            sys.exit(f"Error: {results_file} not found. Run python evaluator.py first.")
         results = json.loads(RESULTS_PATH.read_text(encoding="utf-8"))
     else:
         emails = load_emails()
@@ -190,8 +207,10 @@ def main():
         except MissingAPIKeyError as e:
             sys.exit(f"Error: {e}")
 
+        # git doesn't track empty folders, so results/ may not exist yet.
+        RESULTS_PATH.parent.mkdir(exist_ok=True)
         RESULTS_PATH.write_text(json.dumps(results, indent=2), encoding="utf-8")
-        print(f"\nSaved {len(results)} results to {RESULTS_PATH.name}")
+        print(f"\nSaved {len(results)} results to {results_file}")
 
     print_report(results)
 

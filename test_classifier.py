@@ -255,6 +255,12 @@ def test_precision_and_recall():
     assert precision_recall(RESULTS, "general_enquiry") == (0.0, 0.0)
 
 
+def test_precision_and_recall_are_none_when_undefined():
+    # Nothing is predicted or expected to escalate, so neither can be calculated.
+    fields = {"predicted": "predicted_escalation", "expected": "expected_escalation"}
+    assert precision_recall(RESULTS, True, **fields) == (None, None)
+
+
 def test_escalation_metrics():
     def escalation(expected, predicted):
         return make_result(

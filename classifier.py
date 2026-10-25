@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 
 CATEGORIES = ("billing", "technical_support", "general_enquiry")
 
-EMAILS_PATH = Path(__file__).parent / "emails.json"
+EMAILS_PATH = Path(__file__).parent / "data" / "emails.json"
 
 # One small, low-cost model per provider. Both are priced the same per token,
 # so the comparison is about quality and speed rather than price tier.
