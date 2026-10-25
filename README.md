@@ -51,9 +51,18 @@ I chose **gpt-6-luna** and **claude-haiku-5-5** for three reasons:
 - Each is its provider's small, fast tier.
 - Both list at $0.10 / $0.50 per million input / output tokens, so price doesn't favour either.
 
-**Estimated cost:** about **$0.08 per 1,000 emails**. This assumes roughly 500 input and 50 output tokens per email.
+**Measured cost per 1,000 emails:**
 
-**Measured cost:** TODO, from the full run.
+| Model | Input tokens / email | Output tokens / email | Cost per 1,000 |
+|---|---:|---:|---:|
+| gpt-6-luna | 498 | 60 | $0.080 |
+| claude-haiku-5-5 | 947 | 93 | $0.141 |
+
+Equal list prices did not mean equal cost. Claude used about twice the input tokens, probably because Anthropic adds the schema to the prompt and its tokenizer counts the same text differently. It also wrote longer reasoning than the prompt asked for: 34 words against GPT's 20. I estimated $0.08 per 1,000 before the run, which was accurate for GPT but 43% too low for Claude.
+
+At 1 million emails a month, that's about $80 against $141. Both are small next to the cost of a misrouted email. The full 120-call run cost $0.013.
+
+**For production I'd choose claude-haiku-5-5.** Both models were equally accurate on categories, and Claude didn't miss any email that needed a person (see below). That matters more than $61 per million emails. The caveat: the difference comes down to a single email.
 
 ## Run the Evaluation
 
@@ -69,32 +78,39 @@ python evaluator.py --from-results     # re-report saved results for free
 
 ## Eval Results
 
-TODO: paste the table printed by `python evaluator.py`.
+One full run, 60 emails per model, 0 errors:
+
+| Metric | gpt-6-luna | claude-haiku-5-5 |
+|---|---:|---:|
+| Category accuracy | 100.0% | 100.0% |
+| Macro precision / recall | 100.0% / 100.0% | 100.0% / 100.0% |
+| Escalation accuracy | 98.3% | 98.3% |
+| Escalation precision | 100.0% | 88.9% |
+| **Escalation recall** | **87.5%** | **100.0%** |
+| Median latency (s) | 1.63 | 1.55 |
+| Cost per 1,000 emails | $0.080 | $0.141 |
 
 **What the results tell you:**
-- How each model performs on clear and deliberately ambiguous emails using the same prompt.
-- How reliably each model flags the 8 emails that need a person.
-- Real latency and token cost.
-
-For escalation, **recall matters most**: a missed escalation reaches a customer unchecked, while a false alarm only costs a reviewer's time.
+- **Categories are solved on this data.** Both models classified all 60 emails correctly, including the 9 deliberately ambiguous ones. The written tie-break rule did its job.
+- **Escalation is where the models differ.** Each made one mistake, in opposite directions:
+  - **GPT missed email 20** ($38 a month in repayments since June). It read the $100 rule literally because no total was stated.
+  - **Claude escalated email 13 unnecessarily** ($4.99 a week in premium SMS charges). It reasoned that the total "may exceed $100 over time".
+- **Claude's mistake is the cheaper one.** For escalation, recall matters most: a missed escalation reaches a customer unchecked, while a false alarm only costs a reviewer's time.
+- **Speed is effectively equal:** about 1.6 seconds per email for both.
 
 **What they don't tell you:**
-- With 60 emails, one mistake is about 1.7 percentage points, so small gaps are noise.
-- Only 8 emails should escalate, so each missed escalation moves recall by 12.5 points.
-- The emails are synthetic and cleaner than real customer mail.
-- Latency was measured from one location at one time.
+- **Which model is better at categories.** At 100% each, the dataset is too easy to separate them. Harder or real emails are needed.
+- **Whether the escalation gap is real.** It's one email each way. Only 8 emails should escalate, so a single email moves recall by 12.5 points.
+- **Real-world performance.** The emails are synthetic, cleaner than real customer mail, and were written by the same person who labelled them.
+- **Run-to-run variation.** Results come from a single run with default sampling, from one location at one time.
 
 ## Where It's Weakest
 
-TODO: confirm against the misclassified emails from the full run.
-
-Expected weak spots:
-- **Mixed-intent emails:** for example, an outage plus a request for a credit (emails 16, 17, 19, 35, 36, 39, 55, 58, 60).
-- **Boundary between general enquiries and billing:** questions about plans or cancellation fees.
-- **Escalation that needs arithmetic or interpretation:**
-  - Email 20 implies over $100 overcharged without stating a total.
-  - Email 19 signals hardship without saying "hardship".
-- **Labels from one person:** every category and escalation label is my judgement under the written rules.
+- **The $100 escalation rule is ambiguous.** It doesn't say whether it means the amount charged so far or the amount it could grow to. Both mistakes come from that gap: GPT ignored an implied total, and Claude projected a future one. The fix belongs in the rule, for example "the total charged so far". The new rule should then be tested on fresh emails, not these 60.
+- **Rules are applied as written.** Both models handled hardship stated without the word "hardship" (email 19). Neither is likely to escalate a risk the five rules don't name.
+- **Claude ignores length instructions.** It wrote 34-word explanations where the prompt asked for "one short sentence", which adds cost at scale.
+- **Category weak spots are unknown.** No category mistakes means this dataset hasn't found them, not that there are none.
+- **Labels come from one person.** Every category and escalation label is my judgement under the written rules.
 
 ## Before Real Customers (design only)
 
