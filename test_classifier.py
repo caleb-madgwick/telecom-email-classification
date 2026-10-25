@@ -24,7 +24,13 @@ from classifier import (
     load_emails,
     validate_response,
 )
-from evaluator import accuracy, estimated_cost, precision_recall, select_sample
+from evaluator import (
+    accuracy,
+    estimated_cost,
+    find_disagreements,
+    precision_recall,
+    select_sample,
+)
 
 EMAIL = {
     "id": 1,
@@ -287,6 +293,21 @@ def test_estimated_cost():
     )
     # $0.10 per 1M input + $0.50 per 1M output
     assert estimated_cost(result) == pytest.approx(0.60)
+
+
+def test_find_disagreements():
+    results = [
+        # Email 1: both models give the same answer.
+        make_result("billing", "billing", model="a", email_id=1),
+        make_result("billing", "billing", model="b", email_id=1),
+        # Email 2: different categories (model a is right, b is wrong).
+        make_result("billing", "billing", model="a", email_id=2),
+        make_result("billing", "general_enquiry", model="b", email_id=2),
+        # Email 3: same category, different escalation decision.
+        make_result("billing", "billing", model="a", email_id=3, predicted_escalation=True),
+        make_result("billing", "billing", model="b", email_id=3),
+    ]
+    assert sorted(find_disagreements(results)) == [2, 3]
 
 
 def test_select_sample_takes_n_from_each_category():

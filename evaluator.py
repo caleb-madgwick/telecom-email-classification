@@ -1,7 +1,8 @@
 """Compare models on the email dataset: accuracy, precision, recall, latency and cost.
 
 Usage:
-    python evaluator.py                       # full run: 60 emails x 2 models = 120 API calls
+    python evaluator.py                       # original 60 emails x 2 models = 120 API calls
+    python evaluator.py --dataset hard        # harder 40 emails x 2 models = 80 API calls
     python evaluator.py --per-category 2      # cheap test run: 6 emails x 2 models = 12 calls
     python evaluator.py --provider anthropic  # run one provider only
     python evaluator.py --from-results        # re-report saved results, no API calls
@@ -15,6 +16,7 @@ from pathlib import Path
 
 from classifier import (
     CATEGORIES,
+    EMAILS_PATH,
     MODELS,
     MissingAPIKeyError,
     classify_email,
@@ -23,7 +25,16 @@ from classifier import (
 )
 
 PROJECT_DIR = Path(__file__).parent
-RESULTS_PATH = PROJECT_DIR / "results" / "results.json"
+
+# Each dataset has its own results file, so a run on one can never overwrite
+# the saved results of another.
+DATASETS = {
+    "original": (EMAILS_PATH, PROJECT_DIR / "results" / "results.json"),
+    "hard": (
+        PROJECT_DIR / "data" / "hard_emails.json",
+        PROJECT_DIR / "results" / "hard_results.json",
+    ),
+}
 
 # Standard prices in USD per 1M tokens: (input, output), as of 2026-10-25.
 # Prices change, so check these before relying on the cost figures:
@@ -121,6 +132,22 @@ def summarise(results):
     }
 
 
+def find_disagreements(results):
+    """Emails where the models gave different answers, as {email_id: results}.
+
+    An answer is the (category, escalation) pair, so this includes emails
+    where one model was right and the other wrong.
+    """
+    by_email = {}
+    for r in results:
+        by_email.setdefault(r["email_id"], []).append(r)
+    return {
+        email_id: email_results
+        for email_id, email_results in by_email.items()
+        if len({(r["predicted"], r["predicted_escalation"]) for r in email_results}) > 1
+    }
+
+
 def format_seconds(value):
     return "n/a" if value is None else f"{value:.2f}"
 
@@ -172,9 +199,26 @@ def print_report(results):
         detail = r["reasoning"] or r["error"]
         print(f"- [{r['model']}] email {r['email_id']}: expected {expected}, got {got}. {detail}")
 
+    disagreements = find_disagreements(results)
+    print(f"\nModels disagreed on: {len(disagreements)}")
+    for email_id, email_results in disagreements.items():
+        answers = "; ".join(
+            f"{r['model']} {r['predicted'] or 'ERROR'} (escalate={r['predicted_escalation']})"
+            for r in email_results
+        )
+        first = email_results[0]
+        expected = f"{first['expected']} (escalate={first['expected_escalation']})"
+        print(f"- email {email_id}: {answers}. Expected {expected}")
+
 
 def main():
     parser = argparse.ArgumentParser(description="Compare LLM email classifiers.")
+    parser.add_argument(
+        "--dataset",
+        choices=sorted(DATASETS),
+        default="original",
+        help="which email set to use (default: original)",
+    )
     parser.add_argument(
         "--provider", choices=sorted(MODELS), help="run one provider only (default: both)"
     )
@@ -190,14 +234,18 @@ def main():
         help="skip API calls and report on the saved results",
     )
     args = parser.parse_args()
-    results_file = RESULTS_PATH.relative_to(PROJECT_DIR)
+    emails_path, results_path = DATASETS[args.dataset]
+    results_file = results_path.relative_to(PROJECT_DIR)
 
     if args.from_results:
-        if not RESULTS_PATH.exists():
-            sys.exit(f"Error: {results_file} not found. Run python evaluator.py first.")
-        results = json.loads(RESULTS_PATH.read_text(encoding="utf-8"))
+        if not results_path.exists():
+            sys.exit(
+                f"Error: {results_file} not found. "
+                f"Run python evaluator.py --dataset {args.dataset} first."
+            )
+        results = json.loads(results_path.read_text(encoding="utf-8"))
     else:
-        emails = load_emails()
+        emails = load_emails(emails_path)
         if args.per_category:
             emails = select_sample(emails, args.per_category)
         providers = [args.provider] if args.provider else list(MODELS)
@@ -208,8 +256,8 @@ def main():
             sys.exit(f"Error: {e}")
 
         # git doesn't track empty folders, so results/ may not exist yet.
-        RESULTS_PATH.parent.mkdir(exist_ok=True)
-        RESULTS_PATH.write_text(json.dumps(results, indent=2), encoding="utf-8")
+        results_path.parent.mkdir(exist_ok=True)
+        results_path.write_text(json.dumps(results, indent=2), encoding="utf-8")
         print(f"\nSaved {len(results)} results to {results_file}")
 
     print_report(results)
